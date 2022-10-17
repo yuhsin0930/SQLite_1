@@ -94,26 +94,6 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     }
-                }else if(editTextPhone.length()!=0){
-                    //從SQLite找資料的方法
-                    String phone = editTextPhone.getText().toString();
-                     Cursor c = userDataBase.rawQuery("SELECT * FROM users WHERE phone = '" + phone + "';", null);
-                    if (c != null) {
-                        c.moveToFirst();
-                        for (int i = 0; i < c.getCount(); i++) {
-                            String user_id = String.valueOf(c.getInt(0));
-                            String user_name = c.getString(1);
-                            String user_sex = c.getString(2);
-                            String user_address = c.getString(3);
-                            String user_phone = c.getString(4);
-                            textViewShow.append("id : "+user_id+"\n"+
-                                    "name : "+user_name+"\n"+
-                                    "sex : "+user_sex+"\n"+
-                                    "address : "+user_address+"\n"+
-                                    "phone : "+user_phone+"\n\n");
-                            c.moveToNext();
-                        }
-                    }
                 }else if(sex.equals("male")){
                     //從SQLite找資料的方法
                     Cursor c = userDataBase.rawQuery("SELECT * FROM users WHERE sex = '" + "male"+ "';", null);
@@ -136,6 +116,27 @@ public class MainActivity extends AppCompatActivity {
                 }else if(sex.equals("female")){
                     //從SQLite找資料的方法
                     Cursor c = userDataBase.rawQuery("SELECT * FROM users WHERE sex = '" + "female"+ "';", null);
+                    if (c != null) {
+                        c.moveToFirst();
+                        for (int i = 0; i < c.getCount(); i++) {
+                            String user_id = String.valueOf(c.getInt(0));
+                            String user_name = c.getString(1);
+                            String user_sex = c.getString(2);
+                            String user_address = c.getString(3);
+                            String user_phone = c.getString(4);
+                            textViewShow.append("id : "+user_id+"\n"+
+                                    "name : "+user_name+"\n"+
+                                    "sex : "+user_sex+"\n"+
+                                    "address : "+user_address+"\n"+
+                                    "phone : "+user_phone+"\n\n");
+                            c.moveToNext();
+                        }
+                    }
+                }
+                else if(editTextPhone.length()!=0){
+                    //從SQLite找資料的方法
+                    String phone = editTextPhone.getText().toString();
+                     Cursor c = userDataBase.rawQuery("SELECT * FROM users WHERE phone = '" + phone + "';", null);
                     if (c != null) {
                         c.moveToFirst();
                         for (int i = 0; i < c.getCount(); i++) {
@@ -184,14 +185,14 @@ public class MainActivity extends AppCompatActivity {
                 if(editTextName.length()!=0){
                     userDataBase.delete("users", "name=?", new String[]{editTextName.getText().toString()}); //第一種刪除的寫法
 //                    userDataBase.delete("users", "name = " + editTextName.getText().toString(), null);  //第二種刪除的寫法
-                }else if(editTextAddress.length()!=0){
-                    userDataBase.delete("users","address=?",new String[]{editTextAddress.getText().toString()});
-                }else if(editTextPhone.length()!=0){
-                    userDataBase.delete("users", "phone = " + editTextPhone.getText().toString(), null);
                 }else if(sex.equals("male")){
                     userDataBase.delete("users", "sex = 'male'" , null);
                 }else if(sex.equals("female")){
                     userDataBase.delete("users", "sex=?",new String[]{"female"});
+                }else if(editTextPhone.length()!=0){
+                    userDataBase.delete("users", "phone = " + editTextPhone.getText().toString(), null);
+                }else if(editTextAddress.length()!=0){
+                    userDataBase.delete("users","address=?",new String[]{editTextAddress.getText().toString()});
                 }
             }
         });
